@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
+import Navbar from './components/Navbar';
+import Landing from './components/Landing';
+import { BrowserRouter, Route, Routes, Switch } from "react-router-dom";
+import Charities from './components/Charities';
+import Footer from './components/Footer';
+import Contact from './components/Contact';
+import Donate from './components/Donate';
+import Charity from './components/Charity';
+
 
 import "./App.css";
 
@@ -47,6 +56,7 @@ class App extends Component {
 
     // Update state with the result.
     this.setState({ storageValue: response });
+    // const content = this.state.storageValue;
   };
 
   render() {
@@ -55,7 +65,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
+        {/* <h1>Good to Go!</h1>
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
         <p>
@@ -65,7 +75,22 @@ class App extends Component {
         <p>
           Try changing the value stored on <strong>line 42</strong> of App.js.
         </p>
-        <div>The stored value is: {this.state.storageValue}</div>
+        <div>The stored value is: {this.state.storageValue}</div> */}
+      <BrowserRouter>
+        <Navbar/>
+        <Routes>
+          <Route exact path="/" element={<Landing />} />
+           <Route exact path="/home" element={<Landing />} />
+          <Route exact path="/charities" element={<Charities />} />
+          <Route exact path="/contact" element={<Contact />} />
+          <Route exact path="/donate" element={<Donate />} />
+          <Route exact path="/charity" element={<Charity />} />
+          
+
+       
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
       </div>
     );
   }
