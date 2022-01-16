@@ -1,28 +1,89 @@
 
-import React, {useState} from 'react';
+
 import {Button, Form, FloatingLabel} from 'react-bootstrap'
 import {  useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import getWeb3 from '../getWeb3';
+import Donation from "../contracts/Donation.json";
 
 function Charity(props) {
-    
-
-    const navigate = useNavigate();
-    
+   
+  
+  // const [charities, setCharities] = useState([]);
+  
+  const navigate = useNavigate();
+  
+  const [account, setAccount] = useState();
+  const [chartiesList, setCharitiesList] = useState();
     const [charityName, setcharityName] = useState('');
-    const [RecievedAmount, setRecievedAmount] = useState('0');
+    const [date, setdateAmount] = useState('');
     const [description , setDescription] = useState('');
+
+    // var Cname="";
+    // var Cdescription="";
+    // var Cdate="";
 
 
     const changeNameHandler = (e) => {
         setcharityName(e.currentTarget.value);
     }
     
-    const changeAmountHandler = (e) => {
-        setRecievedAmount(e.currentTarget.value);
+    const changedateHandler = (e) => {
+      setdateAmount(e.currentTarget.value);
     }
     const changeDescriptionHandler = (e) =>{
       setDescription(e.currentTarget.value);
     }
+      
+    //  const App =  useEffect(()=>{
+      const loaded=async function load() {try {
+        const web3 = await getWeb3();
+  
+        // Use web3 to get the user's accounts.
+        const accounts = await web3.eth.getAccounts();
+        setAccount(accounts[0])
+        console.log(accounts);
+  
+        // Get the contract instance.
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = Donation.networks[networkId];
+        const instance = new web3.eth.Contract(
+          Donation.abi,
+          deployedNetwork && deployedNetwork.address,
+        );
+        const chartiesList = new web3.eth.Contract(Donation.abi,
+          deployedNetwork && deployedNetwork.address,);
+          setCharitiesList(chartiesList);
+          
+          // const counter = await chartiesList.methods.charityCount().call();
+          // for (var i = 0; i < counter; i++){
+          //   const charities = await chartiesList.methods.getCharity(i).call();
+          //   setCharities((charities) =>)
+          // }
+        console.log(">>> ");
+        // Set web3, accounts, and contract to the state, and then proceed with an
+        // example of interacting with the contract's methods.
+        this.setState({ web3, accounts, contract: instance });
+        const charities = await chartiesList.methods.addCharity("charityName","description","date").send({from:account});
+        setCharitiesList(charities);
+        
+        const chari = await chartiesList.methods.getCharities().call();
+        console.log("inside" + chari);
+        
+        
+      } catch (error) {
+        // Catch any errors for any of the above operations.
+        alert(
+          `Failed to load web3, accounts, or contract. Check console for details.`,
+        );
+        console.error(error);
+      } 
+    }
+    // load();
+    // },[]);
+      
+   
+    
     const submitForm = (e) => {
         e.preventDefault();
 
@@ -31,61 +92,60 @@ function Charity(props) {
         }
 
     
-        if(RecievedAmount.trim() === '0') {
+        if(date.trim() === '') {
         return alert('Amount is required!');
         }
     
-        const donator= {
+
+
+         const donator= {
           name: charityName,
-        amountDonated: RecievedAmount,
+        date: date,
         description:description
         }
-    
-        console.log(donator);
 
         
-        navigate('/');
+        loaded();
+
+        console.log(donator);
+      //  addtoCharity(donator.name,donator.description,donator.date);
+      //   function addcharity(charityName, date, description){
+      //     charityName = charityName;
+      //     setcharityName(charityName)
+      //    date = date;
+      //    setdateAmount(date)
+      //      description = description;
+      //      setDescription(description)
+
+
+      //   }
+       
+      //  console.log(addcharity().name);
+        
+        // console.log(donator);
+
+        
+        navigate('/charities?0');
             
     }
- 
- 
+    
+    // async function addtoCharity(name, description, date){
+    //   var chartiesList = await load();
+    //   console.log("here: ", chartiesList);
+    //   const charities = await chartiesList.methods.addCharity(name,description,"10/10/10").call();
+    //   setCharities(charities);
+        
+    //   const chari = await chartiesList.methods.getCharities().call();
+    //   console.log("inside" + chari);
 
+    // }
+
+  
+    
  
     // ]
     return (
-            //   <div className="container mt-5 p-5 ms-5 me-5">
-            //     <div className="row">
-    
-            //     </div>
-            // <Form onSubmit={submitForm}>
             
-            // <Form.Group className="mb-3" controlId="donatorNameInput">
-            //     <FloatingLabel
-            //     controlId="floatingNameInput"
-            //     label="Name"
-            //     className="mb-3"
-            // >
-            //     <Form.Control type="text" placeholder="Bob"  value={donatorName} 
-            //     onChange={changeNameHandler} required />
-            // </FloatingLabel>
-            // </Form.Group>
-
-            // <Form.Group className="mb-3" controlId="donatorAmountInput">
-            //     <FloatingLabel
-            //     controlId="floatingAmountInput"
-            //     label="Amount to Donate"
-            //     className="mb-3"
-            // >
-            //     <Form.Control type="number"  min={0} value={donatorAmount} 
-            //     onChange={changeAmountHandler} required />
-            // </FloatingLabel>
-            // </Form.Group>
-
-           
-            // <Button className="submit-button" variant="success" value="submit" type="submit">Donate</Button>
-            // </Form>
-
-            // </div>
            <section className="contact-page-area section-gap">
                <h2>Register as a charity</h2>
   <div className="container">
@@ -103,7 +163,7 @@ function Charity(props) {
         <form className="form-area w-75 " id="myForm"  onSubmit={submitForm}>
             <div className="form-group">
               <input name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" className="common-input mb-20 form-control" required type="text" value={charityName} onChange={changeNameHandler}/>
-              <input name="number" placeholder="Enter Amount to Donate"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter amount to Donate'" className="common-input mb-20 form-control" required type="date" value={RecievedAmount} onChange={changeAmountHandler} />
+              <input name="number" placeholder="Enter Amount to Donate"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter amount to Donate'" className="common-input mb-20 form-control" required type="date" value={date} onChange={changedateHandler} />
               <textarea className="common-textarea form-control" name="message" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required defaultValue={""} value={description} onChange={changeDescriptionHandler}/>
 
               <div className="alert-msg" style={{textAlign: 'left'}} />

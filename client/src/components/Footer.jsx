@@ -18,18 +18,18 @@ function Footer(props) {
       <div className="col-lg-2 col-md-6 single-footer-widget">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="#">Jobs</a></li>
-          <li><a href="#">Brand Assets</a></li>
-          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Donations</a></li>
+          <li><a href="#">Help those in need</a></li>
+          <li><a href="#">Diasporas</a></li>
           <li><a href="#">Terms of Service</a></li>
         </ul>
       </div>
       <div className="col-lg-2 col-md-6 single-footer-widget">
         <h4>Features</h4>
         <ul>
-          <li><a href="#">Jobs</a></li>
-          <li><a href="#">Brand Assets</a></li>
-          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Donations </a></li>
+          <li><a href="#">our system</a></li>
+          <li><a href="#">Donators Relations</a></li>
           <li><a href="#">Terms of Service</a></li>
         </ul>
       </div>
@@ -59,7 +59,7 @@ function Footer(props) {
     </div>
     <div className="footer-bottom row align-items-center">
       <p className="footer-text m-0 col-lg-6 col-md-12">{/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-        Copyright © All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true" /> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+        Copyright © All rights reserved  <i className="fa fa-heart-o" aria-hidden="true" /> by <a href="/" target="_blank">Donate here</a>
         {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}</p>
       <div className="col-lg-6 col-md-6 social-link">
         <div className="download-button d-flex flex-row justify-content-end">

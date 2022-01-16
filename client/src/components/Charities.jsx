@@ -1,19 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import getWeb3 from '../getWeb3';
+import Donation from "../contracts/Donation.json";
 
 function Charities(props) {
-        const  charities=[
+  console.log("locai",window.location.search.substring(1,3))
+  // state = { storageValue: 0, web3: null, accounts: null, contract: null };
+   const [account, setAccount] = useState();
+   const [chartiesList, setCharitiesList] = useState();
+
+   const [charities, setCharities] = useState([]);
+  //  useEffect(() => {
+  useEffect  (  () =>  {
+   async function load() {try {
+      const web3 = await getWeb3();
+
+      // Use web3 to get the user's accounts.
+      const accounts = await web3.eth.getAccounts();
+      const account=accounts[1];
+      setAccount(accounts[0])
+      console.log(accounts);
+
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = Donation.networks[networkId];
+      const instance = new web3.eth.Contract(
+        Donation.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+      const chartiesList = new web3.eth.Contract(Donation.abi,
+        deployedNetwork && deployedNetwork.address,);
+        setCharities(chartiesList);
+        const counter = await chartiesList.methods.charityCount().call();
+        // for (var i = 0; i < counter; i++){
+        //   const charities = await chartiesList.methods.getCharity(i).call();
+        //   setCharities((charities) =>)
+        // }
+      console.log(">>> ");
+      // Set web3, accounts, and contract to the state, and then proceed with an
+      // example of interacting with the contract's methods.
+      this.setState({ web3, accounts, contract: instance });
+      const charitiesAdd = await chartiesList.methods.addCharity("name","dec","date").send({from:account});
+      const charities = await chartiesList.methods.getCharties().call();
+      setCharities(charities);
+      console.log(charities);
+      console.log("here");
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      );
+      console.error(error);
+    } }
+    load();
+  },[]);
+
+        const  ch=[
         {
             id: 1,
-            name : "Charity One",
+            name : "Food Relief",
             date : "2021-12-12",
-            amountReceived : 24,
+            amountReceived : 0
 
         },
         {
-            id: 1,
-            name : "Charity Two",
-            date : "2021-12-12",
-            amountReceived : 56,
+            id: 2,
+            name : "HC",
+            date : "2022-1-15",
+            amountReceived :  0 + parseInt((window.location.search.substring(1,3))),
 
         }
 
@@ -28,6 +81,7 @@ function Charities(props) {
           <div className="left-part">
             <h1>
               Charities
+              
             </h1>
             <p>
               Help Now For a Better Tomorrow
@@ -60,10 +114,10 @@ function Charities(props) {
               <div className="visit">Amount Recived</div>
               <div className="percentage">Percentage</div>
             </div>
-
-            {charities.map((chartiy, index) => {
+           
+            {ch.map((chartiy, index) => {
                 return<> 
-               <a href="/donate">
+               <a href={`/donate?${index}`}>
                 <div className="table-row">
                 <div className="serial">0{index+1}</div>
                 <div className="country"> {chartiy.name}</div>

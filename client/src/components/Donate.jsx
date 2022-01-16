@@ -43,58 +43,25 @@ function Donate(props) {
     
         console.log(donator);
 
+
         
-        navigate('/');
+        navigate(`/charities?${donatorAmount}`);
             
     }
- 
- 
-
  
     // ]
     return (
             //   <div className="container mt-5 p-5 ms-5 me-5">
-            //     <div className="row">
-    
-            //     </div>
-            // <Form onSubmit={submitForm}>
             
-            // <Form.Group className="mb-3" controlId="donatorNameInput">
-            //     <FloatingLabel
-            //     controlId="floatingNameInput"
-            //     label="Name"
-            //     className="mb-3"
-            // >
-            //     <Form.Control type="text" placeholder="Bob"  value={donatorName} 
-            //     onChange={changeNameHandler} required />
-            // </FloatingLabel>
-            // </Form.Group>
-
-            // <Form.Group className="mb-3" controlId="donatorAmountInput">
-            //     <FloatingLabel
-            //     controlId="floatingAmountInput"
-            //     label="Amount to Donate"
-            //     className="mb-3"
-            // >
-            //     <Form.Control type="number"  min={0} value={donatorAmount} 
-            //     onChange={changeAmountHandler} required />
-            // </FloatingLabel>
-            // </Form.Group>
-
-           
-            // <Button className="submit-button" variant="success" value="submit" type="submit">Donate</Button>
-            // </Form>
-
-            // </div>
            <section className="contact-page-area section-gap">
-               <h2>Donate</h2>
+               <h2>Donate to HC</h2>
   <div className="container">
    
       {/* <div className="map-wrap" style={{width: '100%', height: 15}} id="map" /> */}
       {/* <div className="col-lg-8 ml-5"> */}
           <div className="row flex m-5">
               <div className="col-6">
-                  <p>worthy project that underlines all the five principles to help the diaspora
+                  <p>Help those children all the five principles to help 
                      take interest in national affairs and also create attachment so as to enable them 
                      to attain their part as a citizen.  Besides, it helps to establish tools that would link 
                      more effectively remittances with the development of local communities involving the 

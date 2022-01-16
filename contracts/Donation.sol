@@ -5,11 +5,12 @@ contract Donation{
     uint public donorsCount=0;
     address payable[] charityAddresses;
     DonorsInfo[] public donors;
+    string[] newHistory=new string[](10);
     Charity[] public charities;
     mapping (address=>uint) public balances;
     mapping (address=> Charity) public charitym;
     mapping (address=> DonorsInfo) public donorm;
-   
+    
     struct Charity{
         uint id;
         address charityaddr;
@@ -31,6 +32,10 @@ contract Donation{
         uint balance;
 
     }
+    constructor() public{
+        addCharity("name", "dec","amtn");
+    }
+
     event getCharitiesEv();
     event getCharityEv(uint id);
     event addCharityEv(string name, string description,  uint amountReceived, string date, string[] history);
@@ -41,27 +46,9 @@ contract Donation{
     event depositMade(address charityaddr, uint amountReceived);
     event withdrawalMade(address donoraddr, uint amountDonated);
 
-    function getCharity(uint id) public view returns (Charity memory) {
-        return charities[id];
-    }
-
-    function getCharities() public  returns (Charity[] memory) {
-        emit getCharitiesEv();
-        return charities;
-    }
-
-    function getCharityBalance(uint charity_id) public view returns (uint) {
-        return charities[charity_id].balance;
-    }
-
-    function getDonorBalance(uint donor_id) public view returns (uint) {
-        return donors[donor_id].balance;
-    }
-
     function addCharity(string memory name,string memory description, string memory date) public {
-
         charityCount++;
-        string[] memory history=new string[](100);
+        string[] memory history=new string[](10);
         charities.push(Charity(charityCount,msg.sender,name,date,0,description,history,0));
         // charitym[msg.sender]=Charity(charityCount,msg.sender,name,date,0,description,history);
         charitym[msg.sender].id = charityCount;
@@ -74,9 +61,24 @@ contract Donation{
 
         emit addCharityEv(name,description,0,date,history);
     }
+    function getCharity(uint id) public view returns (Charity memory) {
+        return charities[id];
+    }
 
-    function getdonors() public  returns (DonorsInfo[] memory){
-        emit getDonorsEv();
+    function getCharities() public view returns (Charity[] memory) {
+        return charities;
+    }
+
+    function getCharityBalance(uint charity_id) public view returns (uint) {
+        return charities[charity_id].balance;
+    }
+
+    function getDonorBalance(uint donor_id) public view returns (uint) {
+        return donors[donor_id].balance;
+    }
+
+
+    function getdonors() public view returns (DonorsInfo[] memory){
         return donors;
     }
 
@@ -111,8 +113,7 @@ contract Donation{
         
         // return charities[charity_id].balance;
     }
-
-    function deposit(address payable charityaddr, uint amountReceived, uint charity_id) public returns (uint){
+     function deposit(address payable charityaddr, uint amountReceived, uint charity_id) public returns (uint){
         charities[charity_id].balance += amountReceived;
         // balances[charityaddr] += amountReceived;
         emit depositMade(charityaddr, amountReceived);
@@ -128,4 +129,5 @@ contract Donation{
         return donors[donor_id].balance;
     }
     
+    //  addCharity("name", "fesd", "date");
 }

@@ -11,7 +11,7 @@ function Landing(props) {
           Help those <br /> in need 
         </h1>
         {/* <h3>{this.props.content}</h3> */}
-        <p>With a gift through Eyezon, you can help hospitals better respond to Covid-19. You can help 
+        <p>With a gift through Us, you can help the needed. You can help 
           provide shelter to internally displaced families. You can help build the image of Ethiopia. This all starts with you!</p>
         <div className="download-button d-flex flex-row justify-content-start">
           <div className="buttons flex-row d-flex">
@@ -52,11 +52,11 @@ function Landing(props) {
     <div className="fact-box">
       <div className="row align-items-center">
         <div className="col single-fact">
-          <h2>4</h2>
+          <h2>2</h2>
           <p>Charities</p>
         </div>
         <div className="col single-fact">
-          <h2>10</h2>
+          <h2>0</h2>
           <p>Times Donated</p>
         </div>
         <div className="col single-fact">
@@ -68,7 +68,7 @@ function Landing(props) {
           <p>Donation  Rate</p>
         </div>
         <div className="col single-fact">
-          <h2>15K+</h2>
+          <h2>1K+</h2>
           <p>Total donation needed </p>
         </div>
       </div>
